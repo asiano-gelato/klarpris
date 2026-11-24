@@ -1,0 +1,36 @@
+# Prismotor - Nordisk Bilforsakring
+# OBS: site/data.js ska INTE ignoreras. Sidan fungerar inte utan den.
+
+# Lokala verktygsinstallningar (Claude Code, editorer)
+.claude/
+.vscode/
+.idea/
+*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Node (om nagon kor testerna med npm)
+node_modules/
+npm-debug.log*
+
+# Operativsystem
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Loggar och temporara filer
+*.log
+*.tmp
+tmp/
+
+# Hemligheter och lokala miljovariabler
+.env
+.env.*
+
+# Rakopior av datafilerna fran bolaget (data.js innehaller redan det som behovs)
+*.csv
