@@ -1,342 +1,326 @@
-<title>Nordisk Bilförsäkring – Prismotor</title>
+<title>Klarpris</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Barlow+Condensed:wght@700&display=swap">
 <style>
-:root{--ink:#0f1b2d;--ink2:#41526b;--muted:#6b7a90;--line:#e3e8ef;--bg:#f5f7fa;--card:#fff;--brand:#0b3d91;--brand2:#1565d8;--ok:#0f7b4f;--okbg:#e6f5ee;--warn:#9a5b00;--warnbg:#fff4e0;--bad:#b42318;--badbg:#fdecea;--rev:#5b3cc4;--revbg:#efeafd}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;font-size:15px}
-header{background:linear-gradient(135deg,#0a2a63,#0b3d91 60%,#1565d8);color:#fff;padding:28px 0 90px}
-.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
-.logo{font-weight:700;letter-spacing:.3px;font-size:17px}.logo span{opacity:.7;font-weight:400}
-nav a{color:#dbe6ff;text-decoration:none;margin-left:18px;font-size:14px}nav a:hover{color:#fff}
-h1{font-size:34px;margin:34px 0 8px;letter-spacing:-.5px}
-.lead{max-width:700px;color:#d4e0f7;font-size:16px;margin:0}
-main{margin-top:-64px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;box-shadow:0 1px 2px rgba(15,27,45,.04),0 8px 24px rgba(15,27,45,.05);margin-bottom:22px}
-h2{font-size:22px;margin:0 0 4px;letter-spacing:-.3px}h3{font-size:16px;margin:18px 0 8px}
-.sub{color:var(--muted);margin:0 0 18px}
-section{scroll-margin-top:16px}
-.form{display:grid;grid-template-columns:1fr 1fr 170px auto;gap:12px;align-items:end}
-label{font-size:12px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px}
-input{width:100%;padding:12px 14px;border:1px solid #cfd8e3;border-radius:10px;font-size:16px;font-family:inherit}
-input:focus{outline:2px solid var(--brand2);border-color:transparent}
-button{background:var(--brand2);color:#fff;border:0;border-radius:10px;padding:13px 22px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
-button:hover{background:var(--brand)}button.ghost{background:#fff;color:var(--brand2);border:1px solid #c9d8f2;padding:7px 12px;font-size:13px;font-weight:500}
-button.ghost:hover{background:#eef4ff}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}.chips small{color:var(--muted);margin-right:4px}
-#resultat{margin-top:22px}
-.verdict{border-radius:12px;padding:20px 22px;display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap}
-.verdict .tag{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
-.verdict .msg{font-size:16px;margin-top:4px;max-width:640px}
-.verdict .price{font-size:40px;font-weight:750;letter-spacing:-1px;white-space:nowrap}.verdict .price small{font-size:15px;font-weight:500;opacity:.75;display:block;letter-spacing:0;text-align:right}
-.v-PRIS{background:var(--okbg);color:var(--ok)}.v-VILLKOR{background:var(--warnbg);color:var(--warn)}.v-GRANSKNING{background:var(--revbg);color:var(--rev)}.v-NEJ{background:var(--badbg);color:var(--bad)}
-.grid2{display:grid;grid-template-columns:1.35fr 1fr;gap:22px;margin-top:22px}
+/* Layout: mörk "nattväg"-hero med skylt-input och bil i strålkastarljus; ljust kvitto under. */
+:root{
+  --night:#0b1626; --night2:#132440; --road:#101d33; --amber:#f5a524; --amber2:#e08f0b;
+  --paper:#f4f6f9; --card:#ffffff; --ink:#0e1726; --ink2:#46536a; --muted:#7a8699; --line:#e3e8ef; --plate:#1d4fb8;
+  --up:#c2410c; --down:#0f7b52; --okbg:#e5f4ec; --warnbg:#fff3dc; --revbg:#eeeafc; --badbg:#fdeceb;
+  --display:"Sora",system-ui,-apple-system,"Segoe UI",sans-serif; --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --plateFont:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.55;font-size:16px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.02em}
+button,input,select{font-family:inherit}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+
+/* Hero */
+.hero{background:radial-gradient(1200px 500px at 80% 40%,#1b3358 0%,var(--night) 60%);color:#fff;margin-top:calc(-1 * env(safe-area-inset-top,0px));padding-top:env(safe-area-inset-top,0px)}
+.nav{display:flex;justify-content:space-between;align-items:center;padding-block:22px}
+.brand{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.03em;color:#fff;text-decoration:none}
+.brand i{color:var(--amber);font-style:normal}
+.brand small{display:block;font-family:var(--sans);font-weight:500;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fb0c8;margin-top:-2px}
+.nav a.link{color:#c9d5e6;text-decoration:none;font-weight:500;font-size:14.5px;margin-left:22px}
+.nav a.link:hover{color:#fff}
+.herogrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:40px;align-items:center;padding-block:28px 64px}
+.hero h1{font-size:clamp(34px,4.6vw,54px);line-height:1.05;font-weight:800}
+.hero h1 em{font-style:normal;color:var(--amber)}
+.hero .lead{color:#b8c6da;font-size:18px;margin:16px 0 28px;max-width:30em}
+.form{background:var(--card);color:var(--ink);border-radius:20px;padding:22px;display:grid;gap:14px;box-shadow:0 30px 60px rgba(0,0,0,.35)}
+.lbl{display:block;font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:6px}
+.plate{display:flex;height:70px;border:3px solid #0c0c0c;border-radius:10px;overflow:hidden;background:#fff}
+.plate .eu{width:46px;flex:none;background:var(--plate);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px 0 6px;font-weight:700;font-size:15px}
+.plate input{flex:1;min-width:0;border:0;text-align:center;font-family:var(--plateFont);font-weight:700;font-size:44px;letter-spacing:.16em;text-transform:uppercase;color:#0c0c0c;padding:0 8px;background:transparent}
+.plate input::placeholder{color:#c4cad3}
+.plate input:focus{outline:none}.plate:focus-within{box-shadow:0 0 0 4px rgba(245,165,36,.45)}
+.row2{display:grid;grid-template-columns:1.5fr 1fr;gap:12px}
+.field{width:100%;height:54px;border:1.5px solid #cdd5df;border-radius:10px;padding:0 14px;font-size:17px;background:#fff;color:var(--ink)}
+.field:focus{outline:none;border-color:var(--ink)}
+.cta{height:60px;border:0;border-radius:12px;background:var(--amber);color:#1a1205;font-family:var(--display);font-weight:700;font-size:19px;cursor:pointer;transition:background .15s}
+.cta:hover{background:var(--amber2)}
+.demo{font-size:13.5px;color:var(--muted)}
+.demo summary{cursor:pointer;font-weight:600;color:var(--ink2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:5px 10px;font-size:13px;font-weight:500;color:var(--ink2);cursor:pointer}
+.chip:hover{border-color:var(--ink2);color:var(--ink)}
+.scene{width:100%;height:auto;display:block;max-width:100%}
+
+/* Resultat */
+#resultat{scroll-margin-top:20px;padding-block:44px 10px}
+.res{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:20px;align-items:start}
+.card{background:var(--card);border-radius:20px;padding:26px;border:1px solid var(--line);min-width:0}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.carpic{background:linear-gradient(180deg,#eef2f7,#fff);border-radius:14px;padding:14px 10px 6px;margin-bottom:16px;overflow:hidden}
+.carsvg{width:100%;height:auto;display:block}
+.miniplate{display:inline-flex;border:2px solid #0c0c0c;border-radius:5px;overflow:hidden;font-family:var(--plateFont);font-weight:700;font-size:22px;letter-spacing:.12em;line-height:1.25}
+.miniplate i{background:var(--plate);width:14px}.miniplate span{padding:0 9px;background:#fff}
+.carname{font-family:var(--display);font-size:24px;font-weight:700;margin:10px 0 12px}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.spec{background:var(--paper);border-radius:10px;padding:10px 12px}
+.spec b{display:block;font-size:16px}.spec span{font-size:12.5px;color:var(--muted)}
+.status{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;padding:5px 12px;border-radius:20px}
+.status:before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.s-PRIS{background:var(--okbg);color:var(--down)}.s-VILLKOR{background:var(--warnbg);color:#9a5b00}.s-GRANSKNING{background:var(--revbg);color:#5b3cc4}.s-NEJ{background:var(--badbg);color:#b42318}
+.price{font-family:var(--display);font-size:clamp(44px,6vw,64px);font-weight:800;letter-spacing:-.04em;line-height:1;margin-top:14px;font-variant-numeric:tabular-nums}
+.price small{font-size:18px;font-weight:600;color:var(--muted);letter-spacing:0}
+.month{color:var(--ink2);margin-top:6px}
+.note{border-radius:10px;padding:11px 14px;font-size:14.5px;margin-top:12px}
+.note.w{background:var(--warnbg);color:#6b3f00}.note.g{background:var(--revbg);color:#3d2591}
+h3.sec{font-size:16px;margin:26px 0 8px}
+.lines{list-style:none;margin:0;padding:0}
+.lines li{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid var(--line)}
+.lines li > span:first-child{min-width:0}
+.lines small{display:block;color:var(--muted);font-size:13.5px}
+.lines .v{font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.lines .up .v{color:var(--up)} .lines .dn .v{color:var(--down)}
+.lines .total{border-bottom:0;font-family:var(--display);font-weight:700;font-size:18px}
+.parts{display:flex;height:10px;border-radius:5px;overflow:hidden;margin:10px 0 8px;gap:2px}
+.legend{display:grid;gap:4px;font-size:14px;color:var(--ink2)}
+.legend div{display:flex;justify-content:space-between}
+.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px;vertical-align:0}
+details.more{margin-top:18px}
+details.more summary{cursor:pointer;font-weight:600;color:var(--ink2);font-size:14.5px}
+.tbl{overflow-x:auto;margin-top:10px}
 table{width:100%;border-collapse:collapse;font-size:14px}
-th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px;padding:8px 10px;border-bottom:1px solid var(--line)}
-td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-td.num,th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
-.f-up{color:var(--bad);font-weight:600}.f-down{color:var(--ok);font-weight:600}.f-eq{color:var(--muted)}
-.expl{color:var(--muted);font-size:12.5px}
-tr.total td{font-weight:700;border-top:2px solid var(--ink);border-bottom:0;font-size:15px}
-.box{border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:14px}
-.box h4{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink2)}
-.checks li{list-style:none;padding:4px 0 4px 24px;position:relative;font-size:14px}.checks{margin:0;padding:0}
-.checks li:before{content:"";position:absolute;left:2px;top:10px;width:10px;height:10px;border-radius:50%;background:var(--ok)}
-.checks li.no:before{background:var(--bad)}
-.flag{padding:10px 12px;border-radius:8px;margin-bottom:8px;font-size:14px;background:var(--warnbg);color:#6b3f00}.flag.g{background:var(--revbg);color:#3d2591}
-.flag b{font-family:ui-monospace,Consolas,monospace;font-size:12px;margin-right:6px}
-.bar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:6px 0 10px}
-.legend{display:flex;gap:14px;font-size:13px;flex-wrap:wrap}.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
-.cf{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}.cf:last-child{border:0}
-.mono{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;color:var(--ink2)}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:6px 0 20px}
-.kpi{background:var(--bg);border-radius:12px;padding:16px}.kpi .n{font-size:28px;font-weight:750;letter-spacing:-.5px}.kpi .l{font-size:13px;color:var(--muted)}
-.kpi.red .n{color:var(--bad)}.kpi.green .n{color:var(--ok)}
-.hbar{display:grid;grid-template-columns:120px 1fr 90px;gap:10px;align-items:center;font-size:13.5px;margin:5px 0}
-.hbar .t{background:var(--bg);border-radius:5px;height:18px;position:relative}.hbar .t i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--brand2)}
-.hbar .t i.hot{background:#d9534f}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.note{background:#f0f5ff;border-left:4px solid var(--brand2);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-size:14.5px}
-.formula{background:#0f1b2d;color:#e6edf7;border-radius:12px;padding:18px 20px;font-family:ui-monospace,Consolas,monospace;font-size:13.5px;line-height:1.7;overflow:auto;white-space:pre}
-.pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
-.p-PRIS{background:var(--okbg);color:var(--ok)}.p-VILLKOR{background:var(--warnbg);color:var(--warn)}.p-GRANSKNING{background:var(--revbg);color:var(--rev)}.p-NEJ{background:var(--badbg);color:var(--bad)}
-.scroll{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:10px}
-.scroll tr{cursor:pointer}.scroll tr:hover td{background:#f7faff}
-.tech{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.tech .box p{margin:0;font-size:14px;color:var(--ink2)}
-code{background:#eef2f7;padding:1px 6px;border-radius:5px;font-size:13px}
-footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0 50px}
-@media (max-width:900px){.form,.grid2,.cols,.tech,.kpis{grid-template-columns:1fr}}
+td{padding:7px 4px;border-bottom:1px solid var(--line)}
+.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.nocard{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:28px;align-items:center}
+.nocard h2{font-size:24px;margin-top:12px}
+.nocard ol{margin:10px 0 0;padding-left:20px;color:var(--ink2)}
+
+/* Fördelar / FAQ */
+.why{padding-block:56px 20px}
+.why h2,.faq h2{font-size:30px}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:24px}
+.three h3{font-size:18px;margin:14px 0 6px}
+.three p{margin:0;color:var(--ink2)}
+.icon{width:44px;height:44px;border-radius:12px;background:var(--night);display:grid;place-items:center}
+.steps{counter-reset:s}
+.cover{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px}
+.cover div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.cover b{display:block;font-family:var(--display);font-size:16px}.cover span{color:var(--ink2);font-size:14.5px}
+.faq{padding-block:40px 30px}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-top:10px}
+.faq summary{cursor:pointer;font-weight:600;font-size:16px}
+.faq p{margin:10px 0 0;color:var(--ink2)}
+footer{background:var(--night);color:#8fa1ba;font-size:13.5px;margin-top:40px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:26px calc(26px + env(safe-area-inset-bottom,0px))}
+
+/* Rörelse */
+.spin{animation:spin .55s linear infinite;transform-box:fill-box;transform-origin:center}
+.bob{animation:bob .45s ease-in-out infinite alternate}
+.flow{animation:flow 1.1s linear infinite}
+.flowslow{animation:flow 14s linear infinite}
+.streak{animation:streak .9s linear infinite}
+.drivein{animation:drivein 1s cubic-bezier(.2,.8,.2,1) both}
+.beam{animation:flicker 3s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bob{to{transform:translateY(-1.5px)}}
+@keyframes flow{to{transform:translateX(-80px)}}
+@keyframes streak{from{transform:translateX(120px);opacity:0}30%{opacity:.6}to{transform:translateX(-420px);opacity:0}}
+@keyframes drivein{from{transform:translateX(-110%)}to{transform:none}}
+@keyframes flicker{50%{opacity:.8}}
+@media (prefers-reduced-motion:reduce){.spin,.bob,.flow,.flowslow,.streak,.drivein,.beam{animation:none}}
+
+@media (max-width:880px){
+  .herogrid,.res,.three,.cover,.nocard{grid-template-columns:minmax(0,1fr)}
+  .nav a.link{display:none}
+  .herogrid{padding-block:10px 40px}
+}
 </style>
-<header>
+<header class="hero">
   <div class="wrap">
-    <div class="top">
-      <div class="logo">Nordisk Bilförsäkring <span>| Prismotor v1</span></div>
-      <nav><a href="#rakna">Räkna pris</a><a href="#problem">Problemet</a><a href="#risk">Riskanalys</a><a href="#modell">Prismodell</a><a href="#regler">Beslutsregler</a><a href="#alla">Alla ansökningar</a><a href="#teknik">Teknik</a></nav>
+    <div class="nav">
+      <a class="brand" href="#top">Klarpris<i>.</i><small>av Nordisk Bilförsäkring</small></a>
+      <div><a class="link" href="#fordelar">Därför Klarpris</a><a class="link" href="#ingar">Vad ingår</a><a class="link" href="#fragor">Frågor</a></div>
     </div>
-    <h1>Ett pris du kan förklara – och stå för.</h1>
-    <p class="lead">Ange registreringsnummer och personnummer. Motorn kontrollerar uppgifterna, räknar fram årspremien ur bolagets egen skadedata och visar exakt varför priset blev som det blev.</p>
+    <div class="herogrid" id="top">
+      <div>
+        <h1>Bilförsäkring <em>utan frågetecken.</em></h1>
+        <p class="lead">Skriv in ditt regnummer. Du får priset direkt och ser exakt vad det består av.</p>
+        <form class="form" id="f" autocomplete="off" novalidate>
+          <div>
+            <label class="lbl" for="reg">Registreringsnummer</label>
+            <div class="plate"><div class="eu"><svg width="20" height="20" viewBox="0 0 22 22" aria-hidden="true"><g fill="#ffd400" id="stars"></g></svg><span>S</span></div><input id="reg" maxlength="8" placeholder="ABC 123"></div>
+          </div>
+          <div class="row2">
+            <div><label class="lbl" for="pnr">Personnummer</label><input class="field" id="pnr" inputmode="numeric" placeholder="ÅÅÅÅMMDD-XXXX"></div>
+            <div><label class="lbl" for="kr">Krockar senaste 5 år</label>
+              <select class="field" id="kr"><option value="">Vet ej</option><option value="0">Inga</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4 eller fler</option></select></div>
+          </div>
+          <button class="cta" type="submit">Visa mitt pris</button>
+          <details class="demo"><summary>Prova med ett exempel</summary><div class="chips" id="chips"></div></details>
+        </form>
+      </div>
+      <div id="scene" aria-hidden="true"></div>
+    </div>
   </div>
 </header>
 
 <main class="wrap">
+  <section id="resultat" aria-live="polite"></section>
 
-<section id="rakna" class="card">
-  <h2>Räkna pris</h2>
-  <p class="sub">Juryn ger personnummer och regnummer. Antal krockar är frivilligt – lämnas det tomt används bolagets register.</p>
-  <form class="form" id="f" autocomplete="off">
-    <div><label for="pnr">Personnummer</label><input id="pnr" placeholder="ÅÅÅÅMMDD-XXXX"></div>
-    <div><label for="reg">Registreringsnummer</label><input id="reg" placeholder="ABC123"></div>
-    <div><label for="kr">Krockar 5 år (frivilligt)</label><input id="kr" type="number" min="0" max="20" placeholder="Tomt = register"></div>
-    <div><button type="submit">Beräkna pris</button></div>
-  </form>
-  <div class="chips" id="chips"><small>Snabbexempel:</small></div>
-  <div id="resultat"></div>
-</section>
-
-<section id="problem" class="card">
-  <h2>1. Hur vi förstod problemet</h2>
-  <p class="sub">Uppdraget säger "räkna fram ett pris". Datan säger att bolaget har ett större problem.</p>
-  <div class="kpis" id="kpis"></div>
-  <div class="cols">
-    <div>
-      <h3>Bolaget förlorar pengar i dag</h3>
-      <p>Skadekvoten (utbetalda skador delat med premier) är <b>0,89</b>. Med normala driftskostnader på cirka 22 % blir totalkvoten runt <b>111 %</b>: bolaget betalar ut mer än det tar in.</p>
-      <h3>Orsaken: priset är nästan lika för alla</h3>
-      <p>Dagens premie ligger på 4 600–6 100 kr per år oavsett kund, men skadekostnaden varierar mellan 3 600 och 7 900 kr. Unga förare betalar för lite, medelålders för mycket. Det leder till <b>antiselektion</b>: konkurrenter med träffsäkrare priser tar de lönsamma kunderna.</p>
-      <div class="note"><b>Vår tolkning:</b> bolaget behöver inte bara ett program som räknar ett pris. Det behöver ett pris som speglar verklig risk, går att förklara för kunden och följer svensk lag.</div>
+  <section class="why" id="fordelar">
+    <h2>Därför Klarpris</h2>
+    <div class="three">
+      <div><div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f5a524" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h7"/><path d="M17 15l2 2 3-4"/></svg></div><h3>Varje krona förklarad</h3><p>Du ser vad som höjer och sänker ditt pris, och vad du kan göra åt det.</p></div>
+      <div><div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f5a524" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v18M5 7h14M7 7l-3 7h6zM17 7l-3 7h6z"/></svg></div><h3>Rättvist pris</h3><p>Vi tittar på bilen och din körhistorik. Aldrig på ditt kön.</p></div>
+      <div><div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f5a524" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M10 2h4"/></svg></div><h3>Svar på sekunder</h3><p>Inga långa formulär och inga säljsamtal. Två uppgifter räcker.</p></div>
     </div>
-    <div>
-      <h3>Skadekvot per åldersgrupp, i dag och med vår tariff</h3>
-      <div id="btAge"></div>
-      <p class="expl">Över 1,00 = förlust. Backtest på kunder.csv: vår tariff applicerad på samma kunder och bilar.</p>
+  </section>
+
+  <section id="ingar" style="padding-block:30px 10px">
+    <h2 style="font-size:30px">Vad ingår</h2>
+    <div class="cover">
+      <div><b>Trafik</b><span>Skador du orsakar på andra människor, bilar och saker.</span></div>
+      <div><b>Vagn</b><span>Skador på din egen bil vid krock eller olycka.</span></div>
+      <div><b>Stöld, brand och glas</b><span>Om bilen blir stulen, brinner eller får en stenskott­ruta.</span></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="risk" class="card">
-  <h2>2. Vad påverkar priset – och hur vi vet det</h2>
-  <p class="sub">Alla siffror är skadekostnad per försäkringsår i bolagets egna data: 4 815 försäkringar, 14 273 försäkringsår, 73,7 Mkr i skador.</p>
-  <div class="cols">
-    <div><h3>Förarens ålder (kr per år)</h3><div id="chAge"></div>
-      <p class="expl">U-kurva som väntat – men med en topp vid 50–59 år som finns kvar även när storskador kapas. Hypotes: vuxna barn lånar föräldrarnas bil. Nästa version bör fråga efter yngsta förare i hushållet.</p></div>
-    <div><h3>Motoreffekt (kr per år)</h3><div id="chHk"></div>
-      <p class="expl">Bilar över 400 hk kostar åtta gånger så mycket som bilar under 100 hk.</p></div>
-    <div><h3>Drivmedel (kr per år)</h3><div id="chFuel"></div>
-      <p class="expl">Elbilar har både fler krockar (0,079 mot 0,054 per år) och dyrare reparationer.</p></div>
-    <div><h3>Tidigare krockar – härlett ur datan</h3>
-      <table><thead><tr><th>Krockar 5 år</th><th class="num">Faktor</th></tr></thead><tbody id="bm"></tbody></table>
-      <p class="expl">Poisson–Gamma-modell (negativ binomial) skattad på krockfrekvensen: λ = 0,062, α = 1,61, β = 26,0. Förväntad frekvens = (α + krockar) / (β + år). Samma kredibilitetsteori som aktuarier använder.</p></div>
-  </div>
-  <h3>Storskador</h3>
-  <p>1 % av försäkringarna står för <b>26 %</b> av alla skadekostnader. Största skadan är 2,28 Mkr på en BMW värd 142 000 kr – det kan bara vara en trafikskada (personskada). Vi kapar varje försäkrings skador vid 300 000 kr när faktorerna skattas och lägger tillbaka den kapade delen som ett jämnt <b>storskadetillägg på 9,3 %</b>. En enskild olycka kan då inte styra tariffen.</p>
-  <h3>Vad vi medvetet inte använder</h3>
-  <div class="note"><b>Kön.</b> Näst sista siffran i personnumret visar kön, och i datan kostar män 5 600 kr per år mot 4 480 kr för kvinnor. Att prissätta efter kön är förbjudet sedan EU-domstolens Test-Achats-dom (2012), och i Sverige gäller diskrimineringslagen. Motorn läser aldrig ut den siffran. Ålder får användas eftersom den går att motivera med skadedata.</div>
-</section>
-
-<section id="modell" class="card">
-  <h2>3. Prismodellen</h2>
-  <p class="sub">Multiplikativ modell – samma struktur som svenska försäkringsbolag använder.</p>
-  <div class="formula">Riskpremie = Grundpremie (2 349 kr) × storskadetillägg (1,093)
-           × ålder × skadehistorik × effekt × bilens värde
-           × bilens ålder × drivmedel × märke × [flerbilsrabatt 0,85]
-
-Årspremie  = Riskpremie / (1 − 0,22 driftskostnad − 0,05 vinstmarginal)
-           = Riskpremie × 1,37      (minst 2 400 kr, avrundat till hela kronor)</div>
-  <div class="cols" style="margin-top:18px">
-    <div>
-      <h3>Hur faktorerna skattades</h3>
-      <ul>
-        <li><b>Poisson-GLM med log-länk</b> på skadekostnad, med antal försäkringsår som exponering. Alla faktorer skattas samtidigt, så att effekt, värde och märke inte räknas dubbelt.</li>
-        <li><b>Kredibilitet:</b> märken med lite data (Porsche 27 försäkringar, BYD 21) dras mot 1,00 med L2-krympning, så att några få skador inte ger extrema faktorer.</li>
-        <li><b>Monotonicitet:</b> fler hästkrafter eller högre bilvärde ger aldrig lägre pris.</li>
-        <li><b>Storskador</b> kapas vid 300 000 kr och fördelas jämnt.</li>
-      </ul>
-    </div>
-    <div>
-      <h3>Resultat på bolagets portfölj (backtest)</h3>
-      <div id="btKpi"></div>
-      <p class="expl">Observera: backtestet görs på samma data som modellen skattats på, så det är en övre gräns för träffsäkerheten. I produktion valideras modellen på nya kunder och följs upp kvartalsvis (faktiska mot förväntade skador per faktor).</p>
-    </div>
-  </div>
-  <h3>Prisets tre delar</h3>
-  <p>Helförsäkringen består av trafik (skador på andra), vagn (egna bilen vid krock) och delkasko (stöld, brand, glas). Priset fördelas enligt hur skadekostnaderna fördelar sig i datan: skador utan krock är delkasko (15 %), skador som överstiger bilens värde är trafik (29 %), resten är vagn (56 %).</p>
-  <h3>Hela tariffen</h3>
-  <div id="tariffTab" class="cols"></div>
-</section>
-
-<section id="regler" class="card">
-  <h2>4. Beslutsregler – när ger vi inte ett pris?</h2>
-  <p class="sub">Fyra utfall i stället för bara ja eller nej. Varje regel har en kod som syns i kvittot.</p>
-  <div class="legend" style="margin-bottom:14px"><span class="pill p-PRIS">PRIS</span><span class="pill p-VILLKOR">PRIS MED VILLKOR</span><span class="pill p-GRANSKNING">MANUELL GRANSKNING</span><span class="pill p-NEJ">INGET PRIS</span></div>
-  <table>
-    <thead><tr><th>Kod</th><th>Scenario</th><th>Utfall</th></tr></thead>
-    <tbody>
-      <tr><td class="mono">A5–A7</td><td>Personnummer: fel längd, bokstäver, datum som inte finns, fel kontrollsiffra (Luhn). 10 siffror, bindestreck, <code>+</code> för 100+ år och samordningsnummer hanteras.</td><td><span class="pill p-NEJ">NEJ</span> med tydlig felbeskrivning</td></tr>
-      <tr><td class="mono">A9</td><td>Födelsedatum i framtiden</td><td><span class="pill p-NEJ">NEJ</span></td></tr>
-      <tr><td class="mono">A10</td><td>Under 18 år – kan inte ha körkort</td><td><span class="pill p-NEJ">NEJ</span></td></tr>
-      <tr><td class="mono">A13</td><td>85 år eller äldre</td><td><span class="pill p-PRIS">PRIS</span> – vi nekar aldrig på grund av ålder</td></tr>
-      <tr><td class="mono">A14</td><td>Över 110 år (troligt inmatningsfel)</td><td><span class="pill p-GRANSKNING">GRANSKNING</span></td></tr>
-      <tr><td class="mono">B3</td><td>Regnummer i rätt format men bilen finns inte i registret</td><td><span class="pill p-NEJ">NEJ</span></td></tr>
-      <tr><td class="mono">B4–B6</td><td>Otillåtna bokstäver (I, Q, V, O sist), personlig skylt, fel format. Små bokstäver, mellanslag och bindestreck rensas automatiskt.</td><td><span class="pill p-NEJ">NEJ</span></td></tr>
-      <tr><td class="mono">C1</td><td>Personen har redan bilen försäkrad hos oss</td><td><span class="pill p-NEJ">NEJ</span> – ingen dubbelförsäkring</td></tr>
-      <tr><td class="mono">C2</td><td>Bilen är försäkrad hos oss av någon annan (ägarbyte?)</td><td><span class="pill p-GRANSKNING">GRANSKNING</span></td></tr>
-      <tr><td class="mono">C3</td><td>Befintlig kund med ny bil: verklig historik + flerbilsrabatt</td><td><span class="pill p-PRIS">PRIS</span></td></tr>
-      <tr><td class="mono">C4</td><td>Befintlig kund med skadekvot över 3 och skador över 200 000 kr</td><td><span class="pill p-GRANSKNING">GRANSKNING</span></td></tr>
-      <tr><td class="mono">C5 / C6</td><td>Förare under 25 år med bil över 300 hk / över 500 hk</td><td><span class="pill p-VILLKOR">VILLKOR</span> / <span class="pill p-GRANSKNING">GRANSKNING</span></td></tr>
-      <tr><td class="mono">D1</td><td>Bil värd över 800 000 kr – stöldskydd ska kontrolleras</td><td><span class="pill p-GRANSKNING">GRANSKNING</span></td></tr>
-      <tr><td class="mono">D2</td><td>Bil värd under 15 000 kr – råd om halvförsäkring</td><td><span class="pill p-PRIS">PRIS</span> + råd</td></tr>
-      <tr><td class="mono">E3 / E2</td><td>4 eller fler krockar / 3 krockar senaste 5 åren</td><td><span class="pill p-GRANSKNING">GRANSKNING</span> / <span class="pill p-VILLKOR">VILLKOR</span></td></tr>
-      <tr><td class="mono">E5</td><td>Uppgivna krockar färre än vår egen historik – egen historik används</td><td>Flagga</td></tr>
-      <tr><td class="mono">F1 / F2</td><td>Pris under minimipremien 2 400 kr / över 60 000 kr</td><td>Höjs till minimum / <span class="pill p-GRANSKNING">GRANSKNING</span></td></tr>
-    </tbody>
-  </table>
-  <h3>Skadehistorik när juryn bara ger personnummer och regnummer</h3>
-  <table><thead><tr><th>Prioritet</th><th>Källa</th><th>Vad motorn gör</th></tr></thead><tbody>
-    <tr><td>1</td><td>Befintlig kund (kunder.csv)</td><td>Bolagets egen, verkliga historik: (α + krockar) / (β + försäkringsår)</td></tr>
-    <tr><td>2</td><td>Ifyllt fält eller ansökan (ansokningar.csv)</td><td>Egen uppgift för senaste 5 åren</td></tr>
-    <tr><td>3</td><td>Okänd person</td><td>Faktor 1,00 – portföljens genomsnitt. Kunden får veta att priset kan sänkas när historiken är verifierad.</td></tr>
-  </tbody></table>
-</section>
-
-<section id="alla" class="card">
-  <h2>5. Alla 300 ansökningar</h2>
-  <p class="sub">Motorn körd på hela ansokningar.csv. Klicka på en rad för att öppna kvittot.</p>
-  <div class="kpis" id="allKpi"></div>
-  <div class="scroll"><table><thead><tr><th>Ansökan</th><th>Ålder</th><th>Bil</th><th class="num">hk</th><th class="num">Krockar</th><th>Utfall</th><th class="num">Årspremie</th></tr></thead><tbody id="allTab"></tbody></table></div>
-</section>
-
-<section id="teknik" class="card">
-  <h2>6. Hur lösningen fungerar tekniskt</h2>
-  <p class="sub">Byggd för att aldrig gå sönder under ett livetest: ingen server, ingen installation, ingen internetanslutning.</p>
-  <div class="tech">
-    <div class="box"><h4>Språk</h4><p><b>JavaScript</b> för prismotorn, som körs direkt i webbläsaren. <b>HTML och CSS</b> för sidan. <b>Python 3</b> (pandas, numpy) för analysen och skattningen av tariffen.</p></div>
-    <div class="box"><h4>Filer</h4><p><code>index.html</code> sidan<br><code>motor.js</code> validering, regler, pris, förklaring<br><code>data.js</code> tariff + bil-, kund- och ansökningsdata<br><code>analys/skatta_tariff.py</code> skattar tariffen</p></div>
-    <div class="box"><h4>Tariffen är data, inte kod</h4><p>Pythonskriptet läser CSV-filerna, skattar faktorerna och skriver <code>data.js</code>. En aktuarie kan uppdatera tariffen utan att motorn ändras. Varje offert visar tariffversionen.</p></div>
-  </div>
-  <div class="formula" style="margin-top:6px">CSV-filer ──► analys/skatta_tariff.py (Python: GLM, kredibilitet, bonus–malus, backtest)
-                    │
-                    ▼
-               data.js (tariff + register)
-                    │
-Inmatning ──► motor.js:  1 Validera personnummer  ──►  2 Validera regnummer  ──►  3 Hämta bil
-                         4 Hämta skadehistorik (kund ► ansökan ► genomsnitt)
-                         5 Beräkna pris faktor för faktor   6 Beslutsregler   7 Förklaring + "så sänker du priset"
-                    │
-                    ▼
-               Kvitto i index.html (pris, utfall, kundtext, kontroller, tariffversion, tidpunkt)</div>
-  <h3>Vägen till produktion</h3>
-  <table><tbody>
-    <tr><td><b>Fordonsdata</b></td><td>bilar.csv byts mot uppslag hos Transportstyrelsen, inklusive kontroll av att den sökande äger eller brukar bilen.</td></tr>
-    <tr><td><b>Skadehistorik</b></td><td>Egen uppgift går inte att lita på. I produktion slås historiken upp i branschens gemensamma skadeanmälningsregister (GSR).</td></tr>
-    <tr><td><b>GDPR</b></td><td>Personnummer maskeras i gränssnittet och i loggar, och sparas bara så länge offerten gäller (30 dagar).</td></tr>
-    <tr><td><b>Försäkringsavtalslagen</b></td><td>Kunden ska förstå vad som påverkar priset – det är vad kvittot och "så sänker du priset" gör.</td></tr>
-    <tr><td><b>Trafikförsäkring</b></td><td>Är obligatorisk. Om helförsäkringen nekas behöver kunden ändå trafikförsäkring. Bolagets skyldighet att erbjuda trafikdelen behöver kontrolleras juridiskt.</td></tr>
-    <tr><td><b>Revisionslogg</b></td><td>Varje offert sparas med indata, tariffversion och faktorer, så att bolaget kan svara på varför ett pris blev som det blev, även ett år senare.</td></tr>
-    <tr><td><b>Nästa version</b></td><td>Yngsta förare i hushållet, postnummer, körsträcka, telematik som frivillig rabatt, och skattning på separata skadetyper per del.</td></tr>
-  </tbody></table>
-</section>
-
+  <section class="faq" id="fragor">
+    <h2>Vanliga frågor</h2>
+    <details><summary>Varför fick jag inget pris?</summary><p>Det beror oftast på ett skrivfel i personnumret eller regnumret. Du behöver också vara 18 år. Vi berättar alltid vad som var fel och hur du går vidare.</p></details>
+    <details><summary>Hur kan jag sänka mitt pris?</summary><p>Under ditt pris ser du exakt vad som skulle sänka det, till exempel några år utan krock eller en bil med lägre motorstyrka.</p></details>
+    <details><summary>Vad händer med mitt personnummer?</summary><p>Vi använder det bara för att kontrollera din ålder och din skadehistorik hos oss. Det visas aldrig i sin helhet.</p></details>
+    <details><summary>Varför kan en handläggare behöva titta på min ansökan?</summary><p>Vid till exempel mycket dyra bilar eller flera krockar på kort tid vill vi ge dig ett korrekt pris. Du får ett preliminärt pris direkt och besked inom en arbetsdag.</p></details>
+  </section>
 </main>
-<footer>Hackathon: Dotnet Mentor × Nordisk Bilförsäkring AB · <span id="ver"></span></footer>
+
+<footer><div class="wrap"><span><b style="color:#fff">Klarpris.</b> av Nordisk Bilförsäkring AB</span><span>Helförsäkring för personbil · Pris per år i hela kronor</span></div></footer>
 
 <script src="data.js"></script>
 <script src="motor.js"></script>
 <script>
-const M = window.Motor, T = window.TARIFF, kr = M.kr;
+const M = window.Motor, kr = M.kr;
 const $ = s => document.querySelector(s);
-const fmtF = f => f == null ? "" : `<span class="${f > 1.005 ? "f-up" : f < 0.995 ? "f-down" : "f-eq"}">× ${f.toFixed(2).replace(".", ",")}</span>`;
-const UT = { PRIS: "Pris", VILLKOR: "Pris med villkor", GRANSKNING: "Manuell granskning", NEJ: "Inget pris" };
-$("#ver").textContent = T.version;
+const UT = { PRIS: "Ditt pris är klart", VILLKOR: "Pris med villkor", GRANSKNING: "Preliminärt pris", NEJ: "Vi kan inte ge ett pris" };
 
+// EU-stjärnor
+(() => { let s = ""; for (let i = 0; i < 12; i++) { const a = i / 12 * 2 * Math.PI; s += `<circle cx="${(11 + 8 * Math.cos(a)).toFixed(1)}" cy="${(11 + 8 * Math.sin(a)).toFixed(1)}" r="1.25"/>`; } $("#stars").innerHTML = s; })();
+
+// ---------- Bil (SVG) ----------
+function car(body, { moving = true, glass = "#22344f", lights = true } = {}) {
+  const wheel = cx => `<g class="${moving ? "spin" : ""}"><circle cx="${cx}" cy="70" r="16" fill="#0d121a"/><circle cx="${cx}" cy="70" r="9.5" fill="#aeb8c5"/><circle cx="${cx}" cy="70" r="3" fill="#5d6876"/><path d="M${cx} 61v18M${cx - 9} 70h18M${cx - 6.5} 63.5l13 13M${cx + 6.5} 63.5l-13 13" stroke="#7c8796" stroke-width="1.6"/></g>`;
+  return `<ellipse cx="122" cy="87" rx="108" ry="4" fill="rgba(0,0,0,.22)"/>
+  <g class="${moving ? "bob" : ""}">
+    <path d="M10 64 C10 56 16 52 27 50 L70 46 C83 34 99 24 121 22 L151 22 C167 22 181 30 193 42 L216 47 C227 49 233 54 233 62 L233 66 C233 69 231 71 228 71 L15 71 C12 71 10 69 10 66 Z" fill="${body}"/>
+    <path d="M84 45 C95 34 107 28 123 27 L131 27 L131 45 Z M136 27 L149 27 C161 27 171 33 181 44 L136 45 Z" fill="${glass}"/>
+    <path d="M28 57 H222" stroke="rgba(255,255,255,.18)" stroke-width="1.5"/>
+    ${lights ? `<path d="M222 52 h9" stroke="#ffd27a" stroke-width="5" stroke-linecap="round"/><path d="M11 55 h7" stroke="#ff4d3d" stroke-width="5" stroke-linecap="round"/>` : ""}
+  </g>${wheel(60)}${wheel(186)}`;
+}
+function scene() {
+  const sky = [0, 70, 120, 190, 250, 330, 380, 450, 520].map((x, i) => `<rect x="${x}" y="${150 - (i % 3) * 22 - (i % 2) * 14}" width="${40 + (i % 2) * 18}" height="${90 + (i % 3) * 22 + (i % 2) * 14}" fill="#15284a"/>`).join("");
+  const dashes = Array.from({ length: 10 }, (_, i) => `<rect x="${i * 80}" y="276" width="40" height="4" rx="2" fill="#5b6c86"/>`).join("");
+  const streaks = [180, 205, 228].map((y, i) => `<rect class="streak" style="animation-delay:${i * .3}s" x="300" y="${y}" width="90" height="1.5" fill="#9fb4d4"/>`).join("");
+  return `<svg class="scene" viewBox="0 0 600 330">
+    <defs><linearGradient id="beam" x1="0" x2="1"><stop offset="0" stop-color="#ffd27a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#f5a524" stop-opacity=".25"/><stop offset="1" stop-color="#f5a524" stop-opacity="0"/></radialGradient></defs>
+    <g class="flowslow">${sky}<g transform="translate(600 0)">${sky}</g></g>
+    <rect y="240" width="600" height="90" fill="#0f1c31"/><rect y="240" width="600" height="2" fill="#24395c"/>
+    <g class="flow">${dashes}</g>${streaks}
+    <ellipse cx="470" cy="236" rx="150" ry="40" fill="url(#glow)"/>
+    <polygon class="beam" points="372,213 600,175 600,262 372,220" fill="url(#beam)"/>
+    <g transform="translate(110 150) scale(1.12)">${car("#e9eef5")}</g>
+  </svg>`;
+}
+$("#scene").innerHTML = scene();
+
+// ---------- Exempel för demo ----------
 const exempel = [
-  ["Vanlig kund", "198908152393", "BOC026"], ["Ung + Tesla 670 hk", "200204082390", "XFG61W"], ["16 år", "201004122394", "RCA353"],
-  ["Fel kontrollsiffra", "198411112386", "DKP41T"], ["4 krockar", "200101132397", "EPR14A"], ["87 år", "193901059059", "CWD35D"],
-  ["Okänd person", "19900101-0017", "AJP978"], ["Okänd bil", "198908152393", "ZZZ999"], ["10 siffror + små bokst.", "890815-2393", "boc 026"],
-  ["Befintlig kund, ny bil", "193311288454", "AJP978"], ["Befintlig kund, egen bil", "193311288454", "WED538"], ["Bil försäkrad av annan", "198908152393", "WED538"],
+  ["Vanlig kund", "198908152393", "BOC026"], ["Ung förare, Tesla", "200204082390", "XFG61W"], ["87 år", "193901059059", "CWD35D"],
+  ["Ny kund utan historik", "19900101-0017", "AJP978"], ["Befintlig kund, ny bil", "193311288454", "AJP978"], ["4 krockar", "200101132397", "EPR14A"],
+  ["16 år", "201004122394", "RCA353"], ["Skrivfel i personnummer", "198411112386", "DKP41T"], ["Okänd bil", "198908152393", "ZZZ999"], ["Redan försäkrad", "193311288454", "WED538"],
 ];
 for (const [t, p, r] of exempel) {
-  const b = document.createElement("button"); b.className = "ghost"; b.type = "button"; b.textContent = t;
-  b.onclick = () => { $("#pnr").value = p; $("#reg").value = r; $("#kr").value = ""; run(); };
+  const b = document.createElement("button"); b.type = "button"; b.className = "chip"; b.textContent = t;
+  b.onclick = () => { $("#pnr").value = p; $("#reg").value = r; $("#kr").value = ""; run(true); };
   $("#chips").appendChild(b);
 }
-$("#f").onsubmit = e => { e.preventDefault(); run(); };
-
-function run() {
-  const k = $("#kr").value.trim();
-  const res = M.prissatt($("#pnr").value, $("#reg").value, { krockar: k === "" ? null : Math.max(0, parseInt(k, 10) || 0) });
-  render(res);
-  $("#resultat").scrollIntoView({ behavior: "smooth", block: "nearest" });
+$("#f").onsubmit = e => { e.preventDefault(); run(true); };
+function run(scroll) {
+  const k = $("#kr").value;
+  render(M.prissatt($("#pnr").value, $("#reg").value, { krockar: k === "" ? null : +k }));
+  if (scroll) $("#resultat").scrollIntoView({ behavior: "smooth", block: "start" });
 }
+
+// ---------- Kundspråk ----------
+const FARG = { el: "#2f8f6b", hybrid: "#2d5fa8", diesel: "#4b5563", bensin: "#a83232" };
+const ALDER = { "18-24": "Nya förare råkar oftare ut för skador", "25-29": "Risken sjunker med erfarenhet", "30-39": "Den lägsta risken", "40-49": "Låg risk", "50-59": "Ofta fler förare i hushållet", "60-69": "Den lägsta risken", "70-79": "Låg risk", "80+": "Risken ökar något med åldern" };
+const pct = f => Math.round(Math.abs(f - 1) * 100) + " %";
+const cap = s => s[0].toUpperCase() + s.slice(1);
+function kundrad(x, r) {
+  const b = r.bil, h = r.historik;
+  switch (x.namn) {
+    case "Förarens ålder": { const band = x.varde.match(/\(([^)]+)\)/)[1]; return ["Din ålder", `${r.person.age} år. ${ALDER[band] || ""}`]; }
+    case "Skadehistorik": return ["Din skadehistorik", h.n == null ? "Ingen historik hos oss, vi räknar med ett snitt" : h.n === 0 ? "Inga krockar, det ger rabatt" : cap(h.txt)];
+    case "Motoreffekt": return ["Motorstyrka", `${b.hk} hk. Starka bilar är med i fler och dyrare skador`];
+    case "Bilens värde": return ["Bilens värde", `${kr(b.vardering)}. Dyrare bilar kostar mer att laga`];
+    case "Bilens ålder": return ["Bilens ålder", x.f < 1 ? "Äldre bilar kostar mindre att laga" : "Nyare bilar har dyrare delar"];
+    case "Drivmedel": return ["Drivmedel", b.drivmedel === "el" ? "Elbil: dyra batterier och sensorer" : cap(b.drivmedel)];
+    case "Märke": return ["Bilmärke", `${b.marke}. Utifrån vad skador på märket brukar kosta`];
+    case "Flerbilsrabatt": return ["Flerbilsrabatt", "Du har redan en bil försäkrad hos oss"];
+    default: return [x.namn, x.varde];
+  }
+}
+const VAD_GORA = {
+  A5: ["Skriv personnumret med 10 eller 12 siffror", "Försök igen"], A6: ["Kontrollera födelsedatumet i personnumret", "Försök igen"],
+  A7: ["Kontrollera de fyra sista siffrorna", "Försök igen"], A9: ["Kontrollera årtalet i personnumret", "Försök igen"],
+  A10: ["Du behöver vara 18 år och ha körkort", "Bilens ägare kan teckna försäkringen"],
+  B3: ["Kontrollera regnumret", "Är bilen nyregistrerad? Försök igen om några dagar"], B4: ["Kontrollera regnumret i registreringsbeviset", "Försök igen"],
+  B5: ["Ange bilens ordinarie regnummer", "Det står i registreringsbeviset"], B6: ["Skriv regnumret som ABC123 eller ABC12D", "Försök igen"],
+  C1: ["Bilen är redan försäkrad hos oss", "Du behöver inte göra något"],
+};
 
 function render(r) {
-  const checks = r.kontroller.map(c => `<li class="${c.ok ? "" : "no"}">${c.txt}</li>`).join("");
-  let h = `<div class="verdict v-${r.utfall}"><div><div class="tag">${UT[r.utfall]}${r.kod ? " · regel " + r.kod : ""}</div><div class="msg">${r.kundtext}</div></div>`;
-  if (r.pris != null) h += `<div class="price">${kr(r.pris)}<small>per år · ${kr(r.pris / 12)} per månad</small></div>`;
-  h += `</div>`;
   if (r.utfall === "NEJ") {
-    h += `<div class="grid2"><div class="box"><h4>Kontroller</h4><ul class="checks">${checks}</ul></div><div class="box"><h4>Varför inget pris?</h4><p style="margin:0">${r.kundtext}</p><p class="expl" style="margin-top:10px">Regelkod ${r.kod} · ${T.version}</p></div></div>`;
-    $("#resultat").innerHTML = h; return;
+    const g = VAD_GORA[r.kod] || ["Kontrollera uppgifterna", "Försök igen"];
+    $("#resultat").innerHTML = `<div class="card nocard">
+      <div class="carpic" style="margin:0"><svg class="carsvg" viewBox="0 0 244 95">${car("#c3cbd6", { moving: false, glass: "#8a97a8", lights: false })}</svg></div>
+      <div><span class="status s-NEJ">${UT.NEJ}</span><h2>${r.kundtext}</h2><ol>${g.map(x => `<li>${x}</li>`).join("")}</ol></div></div>`;
+    return;
   }
-  const rows = r.rad.map((x, i) => `<tr><td><b>${x.namn}</b><div class="expl">${x.forkl}</div></td><td>${x.varde}</td><td class="num">${fmtF(x.f)}</td><td class="num">${kr(x.kr)}</td></tr>`).join("");
-  const brutto = r.risk / (1 - T.kostnadsandel - T.vinstmarginal);
-  const c = r.komponenter, tot = c.trafik + c.vagn + c.delkasko;
-  const flags = r.flaggor.map(f => `<div class="flag ${f.grans ? "g" : ""}"><b>${f.kod}</b>${f.txt}</div>`).join("") + r.villkor.map(v => `<div class="flag"><b>VILLKOR</b>${v}</div>`).join("");
-  const cf = r.sankPris.length ? r.sankPris.map(x => `<div class="cf"><span>${x.txt}</span><b>${kr(x.pris)} <span class="f-down">(−${kr(x.diff)})</span></b></div>`).join("") : `<p class="expl" style="margin:0">Priset är redan nära det lägsta för den här bilen och föraren.</p>`;
-  const fakt = r.rad.filter(x => x.f != null);
-  const upp = fakt.filter(x => x.f > 1.05).sort((a, b) => b.f - a.f), ned = fakt.filter(x => x.f < 0.95).sort((a, b) => a.f - b.f);
-  const pct = f => Math.round(Math.abs(f - 1) * 100) + " %";
-  const lc = s => s[0].toLowerCase() + s.slice(1);
-  let mot = `Priset utgår från vad en genomsnittlig försäkring kostar oss i skador per år. Sedan justeras det efter dig och din bil, ${r.bil.marke} ${r.bil.modell} från ${r.bil.arsmodell}. `;
-  if (upp.length) mot += `Priset blir högre på grund av ${upp.map(x => `${lc(x.namn)} (${x.varde}, +${pct(x.f)})`).join(", ")}. `;
-  if (ned.length) mot += `Det blir lägre tack vare ${ned.map(x => `${lc(x.namn)} (${x.varde}, −${pct(x.f)})`).join(", ")}. `;
-  mot += `Din skadehistorik bygger på: ${lc(r.historik.kalla)}. Ovanpå den förväntade skadekostnaden lägger vi 37 % för drift och vinst. Ditt kön påverkar aldrig priset.`;
-  h += `<div class="box" style="margin-top:22px;background:#f7faff;border-color:#c9d8f2"><h4>Motivering till kunden</h4><p style="margin:0;font-size:15.5px">${mot}</p></div>`;
-  h += `<div class="grid2"><div>
-    <div class="box"><h4>Priskvitto – så räknades priset</h4><table>
-      <thead><tr><th>Faktor</th><th>Din uppgift</th><th class="num">Faktor</th><th class="num">Löpande</th></tr></thead><tbody>${rows}
-      <tr><td><b>Riskpremie</b><div class="expl">Förväntad skadekostnad per år</div></td><td></td><td></td><td class="num">${kr(r.risk)}</td></tr>
-      <tr><td><b>Drift och vinst</b><div class="expl">÷ (1 − 0,22 − 0,05)</div></td><td></td><td class="num">${fmtF(1 / (1 - T.kostnadsandel - T.vinstmarginal))}</td><td class="num">${kr(brutto)}</td></tr>
-      <tr class="total"><td>Årspremie</td><td></td><td></td><td class="num">${kr(r.pris)}</td></tr></tbody></table></div>
-    <div class="box"><h4>Prisets tre delar</h4>
-      <div class="bar"><div style="width:${c.trafik / tot * 100}%;background:#0b3d91"></div><div style="width:${c.vagn / tot * 100}%;background:#4f8ff7"></div><div style="width:${c.delkasko / tot * 100}%;background:#a9c7fb"></div></div>
-      <div class="legend"><span><i class="dot" style="background:#0b3d91"></i>Trafik ${kr(c.trafik)}</span><span><i class="dot" style="background:#4f8ff7"></i>Vagn ${kr(c.vagn)}</span><span><i class="dot" style="background:#a9c7fb"></i>Stöld, brand, glas ${kr(c.delkasko)}</span></div></div>
-  </div><div>
-    <div class="box"><h4>Kontroller</h4><ul class="checks">${checks}</ul></div>
-    <div class="box"><h4>Skadehistorik</h4><p style="margin:0">Källa: <b>${r.historik.kalla}</b><br>${r.historik.txt[0].toUpperCase() + r.historik.txt.slice(1)}.<br>Faktor ${r.historik.faktor.toFixed(2).replace(".", ",")}</p></div>
-    ${flags ? `<div class="box"><h4>Flaggor och villkor</h4>${flags}</div>` : ""}
-    <div class="box"><h4>Så kan priset sänkas</h4>${cf}</div>
-    <p class="mono">${r.person.maskerat} · ${r.bil.regnummer} · ${T.version} · ${new Date(r.tid).toLocaleString("sv-SE")}</p>
-  </div></div>`;
-  $("#resultat").innerHTML = h;
+  const b = r.bil, base = r.rad[0];
+  const fakt = r.rad.filter(x => x.f != null && Math.abs(x.f - 1) >= 0.03).sort((a, c) => Math.abs(Math.log(c.f)) - Math.abs(Math.log(a.f)));
+  const lines = `<li><span>Grundpris<small>Vad en genomsnittlig bil kostar att försäkra</small></span><span class="v">${kr(base.kr)}</span></li>` +
+    fakt.map(x => { const [t, d] = kundrad(x, r), up = x.f > 1; return `<li class="${up ? "up" : "dn"}"><span>${t}<small>${d}</small></span><span class="v">${up ? "+" : "−"}${pct(x.f)}</span></li>`; }).join("") +
+    `<li><span>Drift och administration<small>Skadehantering, kundservice och marginal</small></span><span class="v">+37 %</span></li>
+     <li class="total"><span>Ditt pris per år</span><span class="v">${kr(r.pris)}</span></li>`;
+  const tips = r.sankPris.length ? r.sankPris.map(t => `<li class="dn"><span>${t.txt}</span><span class="v">−${kr(t.diff)}/år</span></li>`).join("") : `<li><span>Ditt pris är redan nära det lägsta för den här bilen.</span><span></span></li>`;
+  const notes = r.flaggor.filter(f => f.kod !== "A13").map(f => `<div class="note ${f.grans ? "g" : "w"}">${f.txt}</div>`).join("") + r.villkor.map(v => `<div class="note w"><b>Villkor:</b> ${v}</div>`).join("");
+  const c = r.komponenter;
+  const steg = r.rad.map(x => `<tr><td>${kundrad(x, r)[0]}</td><td class="num">${x.f == null ? "" : "× " + x.f.toFixed(2).replace(".", ",")}</td><td class="num">${kr(x.kr)}</td></tr>`).join("");
+  $("#resultat").innerHTML = `<div class="res">
+    <div class="card">
+      <div class="carpic"><svg class="carsvg drivein" viewBox="0 0 244 95" role="img" aria-label="${b.marke} ${b.modell}">${car(FARG[b.drivmedel] || "#2d5fa8")}</svg></div>
+      <div class="miniplate"><i></i><span>${b.regnummer}</span></div>
+      <div class="carname">${b.marke} ${b.modell}</div>
+      <div class="specs">
+        <div class="spec"><b>${b.arsmodell}</b><span>Årsmodell</span></div><div class="spec"><b>${b.hk} hk</b><span>Motorstyrka</span></div>
+        <div class="spec"><b>${cap(b.drivmedel)}</b><span>Drivmedel</span></div><div class="spec"><b>${kr(b.vardering)}</b><span>Värde i dag</span></div>
+      </div>
+      <h3 class="sec">Det här betalar du för</h3>
+      <div class="parts"><div style="flex:${c.trafik};background:#0b1626"></div><div style="flex:${c.vagn};background:#f5a524"></div><div style="flex:${c.delkasko};background:#9fb4d4"></div></div>
+      <div class="legend"><div><span><i class="dot" style="background:#0b1626"></i>Trafik</span><b>${kr(c.trafik)}</b></div><div><span><i class="dot" style="background:#f5a524"></i>Vagn</span><b>${kr(c.vagn)}</b></div><div><span><i class="dot" style="background:#9fb4d4"></i>Stöld, brand och glas</span><b>${kr(c.delkasko)}</b></div></div>
+    </div>
+    <div class="card">
+      <span class="status s-${r.utfall}">${UT[r.utfall]}</span>
+      <div class="price">${kr(r.pris)}<small> / år</small></div>
+      <div class="month">${kr(r.pris / 12)} i månaden · Helförsäkring</div>
+      ${r.utfall === "GRANSKNING" ? `<div class="note g">En handläggare kontaktar dig inom en arbetsdag och bekräftar priset.</div>` : ""}${notes}
+      <h3 class="sec">Därför blir priset så här</h3><ul class="lines">${lines}</ul>
+      <h3 class="sec">Så kan du sänka priset</h3><ul class="lines">${tips}</ul>
+      <details class="more"><summary>Visa uträkningen steg för steg</summary><div class="tbl"><table><tbody>${steg}
+        <tr><td>Drift och administration</td><td class="num">× 1,37</td><td class="num">${kr(r.risk / 0.73)}</td></tr>
+        <tr><td><b>Ditt pris per år</b>${r.pris > Math.round(r.risk / 0.73) ? " (lägsta pris)" : ""}</td><td></td><td class="num"><b>${kr(r.pris)}</b></td></tr></tbody></table></div></details>
+    </div></div>`;
 }
 
-// ---------- Statiska analysvyer ----------
-function hbars(el, data, unit = " kr") {
-  const max = Math.max(...data.map(d => d[1]));
-  $(el).innerHTML = data.map(([l, v, hot]) => `<div class="hbar"><span>${l}</span><div class="t"><i class="${hot ? "hot" : ""}" style="width:${v / max * 100}%"></i></div><span style="text-align:right">${v.toLocaleString("sv-SE")}${unit}</span></div>`).join("");
-}
-hbars("#chAge", [["18–25", 7550, 1], ["25–30", 6840], ["30–40", 4440], ["40–50", 4490], ["50–60", 7900, 1], ["60–70", 4100], ["70–80", 3580], ["80+", 5840]]);
-hbars("#chHk", [["≤ 100 hk", 2310], ["101–150", 3180], ["151–200", 5470], ["201–250", 5800], ["251–300", 8200], ["301–400", 8160], ["> 400 hk", 19050, 1]]);
-hbars("#chFuel", [["Bensin", 3290], ["Diesel", 4920], ["Hybrid", 6310], ["El", 9030, 1]]);
-$("#bm").innerHTML = [0, 1, 2, 3, 4].map(k => { const f = ((T.krock.alpha + k) / (T.krock.beta + 5)) / T.krock.lambda; return `<tr><td>${k}</td><td class="num">${fmtF(f)}</td></tr>`; }).join("") + `<tr><td>Okänd</td><td class="num">${fmtF(1)}</td></tr>`;
-const B = T.backtest;
-$("#kpis").innerHTML = `<div class="kpi red"><div class="n">0,89</div><div class="l">Skadekvot i dag</div></div><div class="kpi red"><div class="n">~111 %</div><div class="l">Totalkvot med driftskostnad</div></div><div class="kpi"><div class="n">1,62</div><div class="l">Skadekvot för förare 18–24 år</div></div><div class="kpi green"><div class="n">${B.nySkadekvot.toFixed(2).replace(".", ",")}</div><div class="l">Skadekvot med vår tariff</div></div>`;
-$("#btAge").innerHTML = `<table><thead><tr><th>Ålder</th><th class="num">I dag</th><th class="num">Vår tariff</th><th class="num">Prisändring</th></tr></thead><tbody>` +
-  Object.entries(B.perAlder).sort().map(([a, v]) => `<tr><td>${a}</td><td class="num ${v.gammalSK > 1 ? "f-up" : ""}">${v.gammalSK.toFixed(2)}</td><td class="num">${v.nySK.toFixed(2)}</td><td class="num">${v.andring > 0 ? "+" : ""}${Math.round(v.andring * 100)} %</td></tr>`).join("") + `</tbody></table>`;
-$("#btKpi").innerHTML = `<table><tbody><tr><td>Skador (faktiska)</td><td class="num">${kr(B.skador)}</td></tr><tr><td>Premie med dagens priser</td><td class="num">${kr(B.gammalPremie)}</td></tr><tr><td>Premie med vår tariff</td><td class="num">${kr(B.nyPremie)}</td></tr><tr><td>Skadekvot i dag</td><td class="num f-up">${B.gammalSkadekvot.toFixed(3)}</td></tr><tr><td>Skadekvot med vår tariff</td><td class="num f-down">${B.nySkadekvot.toFixed(3)}</td></tr></tbody></table>`;
-const names = { alder: "Ålder", effekt: "Effekt", varde: "Bilens värde", bilalder: "Bilens ålder", drivmedel: "Drivmedel", marke: "Märke" };
-$("#tariffTab").innerHTML = Object.entries(T.rel).map(([k, d]) => {
-  const order = T.bands[k] ? T.bands[k].map(b => b[2]) : Object.keys(d).sort();
-  return `<div><h3 style="margin-top:6px">${names[k]}</h3><table><tbody>${order.map(l => `<tr><td>${l.replace(" ar", " år")}</td><td class="num">${fmtF(d[l])}</td></tr>`).join("")}</tbody></table></div>`;
-}).join("");
-
-// ---------- Alla ansokningar ----------
-const all = window.DATA.ansokningar.map(a => ({ a, r: M.prissatt(String(a[1]), a[2]) }));
-const cnt = { PRIS: 0, VILLKOR: 0, GRANSKNING: 0, NEJ: 0 }; all.forEach(x => cnt[x.r.utfall]++);
-const prices = all.filter(x => x.r.pris != null && x.r.utfall !== "NEJ").map(x => x.r.pris).sort((a, b) => a - b);
-const median = prices[Math.floor(prices.length / 2)];
-$("#allKpi").innerHTML = `<div class="kpi green"><div class="n">${cnt.PRIS}</div><div class="l">Pris direkt</div></div><div class="kpi"><div class="n">${cnt.VILLKOR}</div><div class="l">Pris med villkor</div></div><div class="kpi"><div class="n">${cnt.GRANSKNING}</div><div class="l">Manuell granskning</div></div><div class="kpi red"><div class="n">${cnt.NEJ}</div><div class="l">Inget pris</div></div>
-  <div class="kpi"><div class="n">${kr(median)}</div><div class="l">Medianpremie</div></div><div class="kpi"><div class="n">${kr(prices[0])}</div><div class="l">Lägsta premie</div></div><div class="kpi"><div class="n">${kr(prices[prices.length - 1])}</div><div class="l">Högsta premie</div></div><div class="kpi"><div class="n">300</div><div class="l">Ansökningar körda</div></div>`;
-$("#allTab").innerHTML = all.map(({ a, r }) => `<tr data-p="${a[1]}" data-r="${a[2]}"><td>${a[0]}</td><td>${r.person ? r.person.age : "–"}</td><td>${r.bil ? r.bil.marke + " " + r.bil.modell : a[2]}</td><td class="num">${r.bil ? r.bil.hk : ""}</td><td class="num">${a[3]}</td><td><span class="pill p-${r.utfall}">${UT[r.utfall]}</span></td><td class="num">${r.pris != null ? kr(r.pris) : "–"}</td></tr>`).join("");
-$("#allTab").onclick = e => { const tr = e.target.closest("tr"); if (!tr) return; $("#pnr").value = tr.dataset.p; $("#reg").value = tr.dataset.r; $("#kr").value = ""; run(); $("#rakna").scrollIntoView({ behavior: "smooth" }); };
+// Startläge: ett uträknat exempel så att sidan aldrig är tom
+$("#pnr").value = "198908152393"; $("#reg").value = "BOC 026"; run(false);
 </script>
